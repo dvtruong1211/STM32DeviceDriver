@@ -873,12 +873,12 @@ typedef struct
 #define GPIOE_CLOCK_ENABLE()			( RCC->AHB1ENR |= ( 1U << 4 ) )
 #define GPIOH_CLOCK_ENABLE()			( RCC->AHB1ENR |= ( 1U << 7 ) )
 
-#define GPIOA_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 0 ) );( RCC->AHB1RSTR &= ~( 1U << 0 ) );}while(0)
-#define GPIOB_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 1 ) );( RCC->AHB1RSTR &= ~( 1U << 1 ) );}while(0)
-#define GPIOC_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 2 ) );( RCC->AHB1RSTR &= ~( 1U << 2 ) );}while(0)
-#define GPIOD_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 3 ) );( RCC->AHB1RSTR &= ~( 1U << 3 ) );}while(0)
-#define GPIOE_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 4 ) );( RCC->AHB1RSTR &= ~( 1U << 4 ) );}while(0)
-#define GPIOH_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 7 ) );( RCC->AHB1RSTR &= ~( 1U << 7 ) );}while(0)
+#define GPIOA_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 0 ) );( RCC->AHB1RSTR &= ~( 1U << 0 ) );}while(0)
+#define GPIOB_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 1 ) );( RCC->AHB1RSTR &= ~( 1U << 1 ) );}while(0)
+#define GPIOC_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 2 ) );( RCC->AHB1RSTR &= ~( 1U << 2 ) );}while(0)
+#define GPIOD_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 3 ) );( RCC->AHB1RSTR &= ~( 1U << 3 ) );}while(0)
+#define GPIOE_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 4 ) );( RCC->AHB1RSTR &= ~( 1U << 4 ) );}while(0)
+#define GPIOH_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 7 ) );( RCC->AHB1RSTR &= ~( 1U << 7 ) );}while(0)
 
 
 /**
@@ -887,6 +887,29 @@ typedef struct
 
 #define SYSCFG_CLOCK_ENABLE()			( RCC->APB2ENR |= ( 1U << 14 ) )
 
+
+/**
+  * SPI Clock control
+  */
+
+#define SPI1_CLOCK_ENABLE()				( RCC->APB2ENR |= ( 1U << 12 ) )
+#define SPI2_CLOCK_ENABLE()				( RCC->APB1ENR |= ( 1U << 14 ) )
+#define SPI3_CLOCK_ENABLE()				( RCC->APB1ENR |= ( 1U << 15 ) )
+#define SPI4_CLOCK_ENABLE()				( RCC->APB2ENR |= ( 1U << 13 ) )
+#define SPI5_CLOCK_ENABLE()				( RCC->APB2ENR |= ( 1U << 20 ) )
+
+
+
+
+/**
+  * Macro to config
+  */
+
+#define ENABLE			1
+#define DISABLE 		0
+
+#define SET 			ENABLE
+#define RESET			DISABLE
 
 #endif /* __MEMORY_MAP_STM32F411xE_H */
 

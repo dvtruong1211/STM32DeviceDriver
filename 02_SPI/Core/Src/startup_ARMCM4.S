@@ -53,7 +53,7 @@ __Vectors:
                 .long    Reserved_Handler                   /*  3  */
                 .long    Reserved_Handler                   /*  4  */
                 .long    Reserved_Handler                   /*  5  */
-                .long    EXTI0_IRQHandler                   /*  6  */
+                .long    Reserved_Handler                   /*  6  */
                 .long    Reserved_Handler                   /*  7  */
                 .long    Reserved_Handler                   /*  8  */
                 .long    Reserved_Handler                   /*  9  */

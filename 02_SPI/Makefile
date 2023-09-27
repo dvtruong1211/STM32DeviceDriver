@@ -1,15 +1,17 @@
 
-PROJ_NAME 		:= gpio_driver_test
+PROJ_NAME 		:= Spi_driver
 PROJ_DIR 		:= .
 PATH_OUTPUT		:= $(PROJ_DIR)/Output
 
 INC_DIR 		:= $(PROJ_DIR)/Core/Inc
 INC_DIR 		+= $(PROJ_DIR)/Driver/Gpio/Inc
+INC_DIR 		+= $(PROJ_DIR)/Driver/Spi/Inc
 
 SRC_DIR 		:= $(PROJ_DIR)/Core/Src
 SRC_DIR 		+= $(PROJ_DIR)/Driver/Gpio/Src
+SRC_DIR 		+= $(PROJ_DIR)/Driver/Spi/Src
 
-INC_FILES		:= $(foreach inc_dir, $(INC_DIR), $(wildcard $(inc_dir)/*))
+INC_FILES		:= $(foreach inc_dir, $(INC_DIR), $(wildcard $(inc_dir)/*.h))
 SRC_FILES		:= $(foreach src_dir, $(SRC_DIR), $(wildcard $(src_dir)/*.c))
 
 LINKER_FILE		:= $(PROJ_DIR)/Linker/gcc_arm.ld
@@ -17,7 +19,7 @@ LINKER_FILE		:= $(PROJ_DIR)/Linker/gcc_arm.ld
 COMPILER_DIR	:= D:/Embedded/Embedded_SW/gcc-arm-none-eabi-10.3-2021.10
 PREFIX_COMPILER	:= arm-none-eabi
 
-CC				:= $(COMPILER_DIR)/bin/$(PREFIX_COMPILER)-gcc
+CC				:= $(COMPILER_DIR)/bin/$(PREFIX_COMPILER)-gcc 
 ASM				:= $(COMPILER_DIR)/bin/$(PREFIX_COMPILER)-as
 LD				:= $(COMPILER_DIR)/bin/$(PREFIX_COMPILER)-ld
 

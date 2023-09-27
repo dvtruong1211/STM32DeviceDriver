@@ -207,24 +207,24 @@ void GPIO_Init(GPIO_Handle_t *gpioHander){
 		{
 			gpioHander->Gpiox->AFR[1] &= (0x0f << (4*(gpioHander->GPIO_PinConfig.pinNumber % 8)));
 			gpioHander->Gpiox->AFR[1] &= (gpioHander->GPIO_PinConfig.pinAltFunMode << (4*gpioHander->GPIO_PinConfig.pinNumber));
-		}
+		} 
 	}
 		
 }
 
 void GPIO_DeInit(GPIO_TypeDef *gpiox){
 	if(gpiox == GPIOA)
-			GPIOA_CLOCK_DISABLE();
+			GPIOA_CLOCK_RESET();
 		else if(gpiox == GPIOB)
-			GPIOB_CLOCK_DISABLE();
+			GPIOB_CLOCK_RESET();
 		else if(gpiox == GPIOC)
-			GPIOC_CLOCK_DISABLE();
+			GPIOC_CLOCK_RESET();
 		else if(gpiox == GPIOD)
-			GPIOD_CLOCK_DISABLE();
+			GPIOD_CLOCK_RESET();
 		else if(gpiox == GPIOE)
-			GPIOE_CLOCK_DISABLE();
+			GPIOE_CLOCK_RESET();
 		else if(gpiox == GPIOH)
-			GPIOH_CLOCK_DISABLE();
+			GPIOH_CLOCK_RESET();
 }
 
 uint8_t GPIO_ReadPin(GPIO_TypeDef* gpiox, uint8_t pinNumber){
@@ -294,7 +294,7 @@ void GPIO_IRQPiorityConfig(uint8_t IRQNumber, uint8_t piority){
 	NVIC->IP[IRQNumber] &= ~(0x0f << 4);
 	NVIC->IP[IRQNumber] |=  (piority << 4);
 }
-void GPIO_IRQ_ClearPanding(uint8_t pinNumber){
+void GPIO_IRQ_ClearPending(uint8_t pinNumber){
 	if(EXTI->PR & (1U << pinNumber))
 	{
 		EXTI->PR |= (1U << pinNumber);

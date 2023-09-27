@@ -26,8 +26,7 @@
  void PendSV_Handler(void);
  void SysTick_Handler(void);
  void Reserved_Handler(void);
- void EXTI0_IRQHandler(void);
  
  
  
- #endif
+ #endif /* __IT_H */
