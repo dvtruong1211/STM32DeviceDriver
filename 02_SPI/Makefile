@@ -25,7 +25,7 @@ LD				:= $(COMPILER_DIR)/bin/$(PREFIX_COMPILER)-ld
 
 INC_DIRS_OPT	:=  $(foreach inc_dir, $(INC_DIR), -I$(inc_dir))
 
-CC_OPT			:= -mcpu=cortex-m4 -c -O0 -g -mthumb $(INC_DIRS_OPT)
+CC_OPT			:= -mcpu=cortex-m4 -c -O0 -g -lm -mthumb $(INC_DIRS_OPT)
 ASM_OPT			:= -mcpu=cortex-m4 -c -mthumb
 LD_OPT			:= -T $(LINKER_FILE) -Map $(PATH_OUTPUT)/$(PROJ_NAME).map
 

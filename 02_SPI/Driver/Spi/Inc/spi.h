@@ -29,7 +29,7 @@ typedef struct{
 typedef void(*SPI_IrqCallBack)(SPI_TypeDef *pSPIx);
 
 typedef struct{
-	uint8_t typeOfIRQ;
+	uint32_t typeOfIRQ;
 	
 }SPI_IRQConfig_t;
  
@@ -150,8 +150,12 @@ void SPI_PeriClockControl(SPI_TypeDef *pSPIx, uint8_t EnOrDi);
 void SPI_Init(SPI_Handle_t *pSPIHandle);
 void SPI_DeInit(SPI_TypeDef *pSPIx);
 
+void SPI_Enable(SPI_Handle_t *pSPIHandle);
+void SPI_Disable(SPI_Handle_t *pSPIHandle);
+
 void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t size);
 void SPI_RecieveData(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t size);
+void SPI_Recieve_OneByte(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer);
 
 uint8_t SPI_SendDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t size);
 uint8_t SPI_RecieveDataIT(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t size);

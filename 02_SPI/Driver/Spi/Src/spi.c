@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file    spi.h
+ * @file    spi.c
  * @author  truongdv
  * @version 1.0
  * @date
@@ -8,7 +8,15 @@
  * @history
  ******************************************************************************/
  
+ /*******************************************************************************
+ * Include
+ ******************************************************************************/
 #include "spi.h"
+
+
+/*******************************************************************************
+ * Code
+ ******************************************************************************/
 
 void SPI_PeriClockControl(SPI_TypeDef *pSPIx, uint8_t EnOrDi){
 	if(EnOrDi == ENABLE)
@@ -32,154 +40,154 @@ void SPI_PeriClockControl(SPI_TypeDef *pSPIx, uint8_t EnOrDi){
 
 void SPI_Init(SPI_Handle_t *pSPIHandle){
 	SPI_PeriClockControl(pSPIHandle->pSPIx, ENABLE);
-	uint32_t temp = 0;
+	//uint32_t temp = 0;
 	
 	/* Config the device mode */
 	if(pSPIHandle->SPIConfig.SPI_DeviceMode == SPI_MASTER_MODE)
 	{
-		temp |= (1U << 2);
+		pSPIHandle->pSPIx->CR1  |= (1U << 2);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_DeviceMode == SPI_SLAVE_MODE)
 	{
-		temp &= ~(1U << 2);
+		pSPIHandle->pSPIx->CR1  &= ~(1U << 2);
 	}
 	
 	/* Config the Bus */
 	if(pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_FD)
 	{
-		temp &=~ (1U << 15); 
+		pSPIHandle->pSPIx->CR1 &=~ (1U << 15); 
 	}
 	else if(pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_HD)
 	{
-		temp |= (1U << 15); 
+		pSPIHandle->pSPIx->CR1 |= (1U << 15); 
 	}
 	else if(pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_SIMPLEX_RXONLY)
 	{
-		temp &=~ (1U << 15); 
-		temp |= (1U << 10);
+		pSPIHandle->pSPIx->CR1 &=~ (1U << 15); 
+		pSPIHandle->pSPIx->CR1 |= (1U << 10);
 	}
 		
 	
 	/* Config the clock speed */
 	if(pSPIHandle->SPIConfig.SPI_SclkSpeed == SPI_FCLK_DIV_2)
 	{
-		temp &=~ (0x07U << 3);
-		temp |=  (0x00U << 3);
+		pSPIHandle->pSPIx->CR1 &=~ (0x07U << 3);
+		pSPIHandle->pSPIx->CR1 |=  (0x00U << 3);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_SclkSpeed == SPI_FCLK_DIV_4)
 	{
-		temp &=~ (0x07U << 3);
-		temp |=  (0x01U << 3);
+		pSPIHandle->pSPIx->CR1 &=~ (0x07U << 3);
+		pSPIHandle->pSPIx->CR1 |=  (0x01U << 3);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_SclkSpeed == SPI_FCLK_DIV_8)
 	{
-		temp &=~ (0x07U << 3);
-		temp |=  (0x02U << 3);
+		pSPIHandle->pSPIx->CR1 &=~ (0x07U << 3);
+		pSPIHandle->pSPIx->CR1 |=  (0x02U << 3);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_SclkSpeed == SPI_FCLK_DIV_16)
 	{
-		temp &=~ (0x07U << 3);
-		temp |=  (0x03U << 3);
+		pSPIHandle->pSPIx->CR1 &=~ (0x07U << 3);
+		pSPIHandle->pSPIx->CR1 |=  (0x03U << 3);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_SclkSpeed == SPI_FCLK_DIV_32)
 	{
-		temp &=~ (0x07U << 3);
-		temp |=  (0x04U << 3);
+		pSPIHandle->pSPIx->CR1 &=~ (0x07U << 3);
+		pSPIHandle->pSPIx->CR1 |=  (0x04U << 3);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_SclkSpeed == SPI_FCLK_DIV_64)
 	{
-		temp &=~ (0x07U << 3);
-		temp |=  (0x05U << 3);
+		pSPIHandle->pSPIx->CR1 &=~ (0x07U << 3);
+		pSPIHandle->pSPIx->CR1 |=  (0x05U << 3);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_SclkSpeed == SPI_FCLK_DIV_128)
 	{
-		temp &=~ (0x07U << 3);
-		temp |=  (0x06U << 3);
+		pSPIHandle->pSPIx->CR1 &=~ (0x07U << 3);
+		pSPIHandle->pSPIx->CR1 |=  (0x06U << 3);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_SclkSpeed == SPI_FCLK_DIV_256)
 	{
-		temp &=~ (0x07U << 3);
-		temp |=  (0x07U << 3);
+		pSPIHandle->pSPIx->CR1 &=~ (0x07U << 3);
+		pSPIHandle->pSPIx->CR1 |=  (0x07U << 3);
 	}
 	
 	/* Config data frame format */
 	if(pSPIHandle->SPIConfig.SPI_DFF == SPI_DFF_8BITS)
 	{
-		temp &=~ (1U << 11);
+		pSPIHandle->pSPIx->CR1 &=~ (1U << 11);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_DFF == SPI_DFF_16BITS)
 	{
-		temp |= (1U << 11);
+		pSPIHandle->pSPIx->CR1 |= (1U << 11);
 	}
 	
 	/* Config CPOL */
 	if(pSPIHandle->SPIConfig.SPI_CPOL == SPI_CPOL_LOW)
 	{
-		temp &= ~(1U << 1);
+		pSPIHandle->pSPIx->CR1 &= ~(1U << 1);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_CPOL == SPI_CPOL_HIGH)
 	{
-		temp |= (1U << 1);
+		pSPIHandle->pSPIx->CR1 |= (1U << 1);
 	}
 	
 	/* Config CPHA */
 	if(pSPIHandle->SPIConfig.SPI_CPHA == SPI_CPHA_FIRST)
 	{
-		temp &= ~(1U << 0);
+		pSPIHandle->pSPIx->CR1 &= ~(1U << 0);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_CPHA == SPI_CPHA_SECOND)
 	{
-		temp |= (1U << 0);
+		pSPIHandle->pSPIx->CR1 |= (1U << 0);
 	}
 	
 	/* Config software slave select management */
 	if(pSPIHandle->SPIConfig.SPI_SSM == SPI_SSM_DISABLE)
 	{
-		temp &= ~(1U << 9);
+		pSPIHandle->pSPIx->CR1 &= ~(1U << 9);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_SSM == SPI_SSM_ENABLE)
 	{
-		temp |= (1U << 9);
+		pSPIHandle->pSPIx->CR1 |= (1U << 8);
+		pSPIHandle->pSPIx->CR1 |= (1U << 9);
 	}
 	
 	/* Config bit out first*/
 	if(pSPIHandle->SPIConfig.SPI_BitOutFirst == SPI_MSB_FIRST)
 	{
-		temp &= ~(1U << 7);
+		pSPIHandle->pSPIx->CR1 &= ~(1U << 7);
 	}
 	else if(pSPIHandle->SPIConfig.SPI_BitOutFirst == SPI_LSB_FIRST)
 	{
-		temp |= (1U << 7);
+		pSPIHandle->pSPIx->CR1 |= (1U << 7);
 	}
-	pSPIHandle->pSPIx->CR1 = temp;
+	SPI_Enable(pSPIHandle);
 	
-	/* Enable the SPIx*/
-	pSPIHandle->pSPIx->CR1 |= (1U << 6);
 }
 
 void SPI_DeInit(SPI_TypeDef *pSPIx){
 	/* Do something */
 }
 
-/* uint8_t SPI_GetFlagStatus(SPI_TypeDef* pSPIx, uint32_t flagName){
-	if(pSPIx->SR & flagName)
-	{
-		return FLAG_SET;
-	}
-	return FLAG_RESET;
-} */
+void SPI_Enable(SPI_Handle_t *pSPIHandle){
+	/* Enable the SPIx*/
+	pSPIHandle->pSPIx->CR1 |= (1U << 6);
+}
+
+void SPI_Disable(SPI_Handle_t *pSPIHandle){
+	/* Disable the SPIx*/
+	pSPIHandle->pSPIx->CR1 &=~ (1U << 6);
+}
 
 void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t size){
 	for(uint32_t i = 0; i < size; i++)
 	{
 		/* Doi co busy tat */
 		while(__SPI_GET_FLAG(pSPIHandle->pSPIx, SPI_BUSY_FLAG)); 
-		/* Xoa co OVR */
-		if(__SPI_GET_FLAG(pSPIHandle->pSPIx, SPI_OVR_FLAG))
+		
+		while(__SPI_GET_FLAG(pSPIHandle->pSPIx, SPI_OVR_FLAG))
 		{
 			__SPI_CLR_OVR_FLAG(pSPIHandle->pSPIx);
 		}
-		
 		/* Transmit data */
 		if(pSPIHandle->SPIConfig.SPI_DFF == SPI_DFF_16BITS)
 		{
@@ -191,8 +199,7 @@ void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pTxBuffer, uint32_t size){
 		else if(pSPIHandle->SPIConfig.SPI_DFF == SPI_DFF_8BITS)
 		{
 			while(__SPI_GET_FLAG(pSPIHandle->pSPIx, SPI_TXE_FLAG) == RESET);
-			pSPIHandle->pSPIx->DR = *((uint8_t*)pTxBuffer);
-			pTxBuffer += 1;
+			pSPIHandle->pSPIx->DR = *(pTxBuffer+i);
 		}
 	}
 }
@@ -202,11 +209,6 @@ void SPI_RecieveData(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t size
 	{
 		/* Doi co busy tat */
 		while(__SPI_GET_FLAG(pSPIHandle->pSPIx, SPI_BUSY_FLAG)); 
-		/* Xoa co OVR */
-		if(__SPI_GET_FLAG(pSPIHandle->pSPIx, SPI_OVR_FLAG))
-		{
-			__SPI_CLR_OVR_FLAG(pSPIHandle->pSPIx);
-		}
 		/* Recieve data */
 		if(pSPIHandle->SPIConfig.SPI_DFF == SPI_DFF_16BITS)
 		{
@@ -218,9 +220,23 @@ void SPI_RecieveData(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer, uint32_t size
 		else if(pSPIHandle->SPIConfig.SPI_DFF == SPI_DFF_8BITS)
 		{
 			while(__SPI_GET_FLAG(pSPIHandle->pSPIx, SPI_RXNE_FLAG) == RESET);
-			*pRxBuffer = (uint8_t)pSPIHandle->pSPIx->DR;
-			pRxBuffer += 1;
+			*(pRxBuffer+i) = (uint8_t)pSPIHandle->pSPIx->DR;
 		}
+	}
+}
+
+void SPI_Recieve_OneByte(SPI_Handle_t *pSPIHandle, uint8_t *pRxBuffer){
+	while(__SPI_GET_FLAG(pSPIHandle->pSPIx, SPI_BUSY_FLAG)); 
+		/* Recieve data */
+	if(pSPIHandle->SPIConfig.SPI_DFF == SPI_DFF_16BITS)
+	{
+		while(__SPI_GET_FLAG(pSPIHandle->pSPIx, SPI_RXNE_FLAG) == RESET);
+		*((uint16_t*)pRxBuffer) = pSPIHandle->pSPIx->DR;
+	}
+	else if(pSPIHandle->SPIConfig.SPI_DFF == SPI_DFF_8BITS)
+	{
+		while(__SPI_GET_FLAG(pSPIHandle->pSPIx, SPI_RXNE_FLAG) == RESET);
+		*pRxBuffer = (uint8_t)pSPIHandle->pSPIx->DR;
 	}
 }
 
@@ -241,32 +257,34 @@ void SPI_IRQInterrupt_Config(SPI_Handle_t *SPIHandle,uint8_t IRQNumber, uint8_t 
 	
 	if(EnOrDi == ENABLE)
 	{
-		if(IRQNumber >= 64 )
-		{
-			NVIC->ISER[2] |= (IRQNumber % 64);
-		}
-		else if(IRQNumber >= 32)
-		{
-			NVIC->ISER[1] |= (IRQNumber % 32);
-		}
-		else if(IRQNumber >= 0)
-		{
-			NVIC->ISER[0] |= (IRQNumber);
-		}
+		
+			if(IRQNumber < 32)
+			{
+				NVIC->ISER[0] |= (1U << IRQNumber);
+			}
+			else if(IRQNumber >= 32  && IRQNumber < 64)
+			{
+				NVIC->ISER[1] |= (1U << (IRQNumber % 32));
+			}
+			else if(IRQNumber >= 64  && IRQNumber < 96)
+			{
+				NVIC->ISER[2] |= (1U << (IRQNumber % 64));
+			}
+		
 	}
 	else if(EnOrDi = DISABLE)
 	{
 		if(IRQNumber >= 64 )
 		{
-			NVIC->ICER[2] |= (IRQNumber % 64);
+			NVIC->ICER[2] |= (1U << (IRQNumber % 64));
 		}
 		else if(IRQNumber >= 32)
 		{
-			NVIC->ICER[1] |= (IRQNumber % 32);
+			NVIC->ICER[1] |= (1U << (IRQNumber % 32));
 		}
 		else if(IRQNumber >= 0)
 		{
-			NVIC->ICER[0] |= (IRQNumber);
+			NVIC->ICER[0] |= (1U << (IRQNumber));
 		}
 	}
 }
@@ -310,3 +328,4 @@ void SPI_IRQ_Handler(SPI_Handle_t *SPIHandle){
 
 
 
+/***********************************************/

@@ -83,7 +83,7 @@ __Vectors:
                 .long    Reserved_Handler                   /* 33  */
                 .long    Reserved_Handler                   /* 34  */
                 .long    Reserved_Handler                   /* 35  */
-                .long    Reserved_Handler                   /* 36  */
+                .long    SPI2_IRQHandler                    /* 36  */
                 .long    Reserved_Handler                   /* 37  */
                 .long    Reserved_Handler                   /* 38  */
                 .long    Reserved_Handler                   /* 39  */

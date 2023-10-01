@@ -1,0 +1,275 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x20000000         0x00020000         xrw
+FLASH            0x08000000         0x00080000         xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x08000000                __ROM_BASE = 0x8000000
+                0x00040000                __ROM_SIZE = 0x40000
+                0x20000000                __RAM_BASE = 0x20000000
+                0x00020000                __RAM_SIZE = 0x20000
+                0x00001000                __STACK_SIZE = 0x1000
+                0x00001000                __HEAP_SIZE = 0x1000
+
+.text           0x08000000     0x18e4
+ *(.vectors)
+ .vectors       0x08000000      0x198 ./Output/startup_ARMCM4.o
+                0x08000000                __Vectors
+ *(.text*)
+ .text          0x08000198       0x48 ./Output/it.o
+                0x08000198                SystemInit
+                0x080001a4                NMI_Handler
+                0x080001aa                HardFault_Handler
+                0x080001b0                MemManage_Handler
+                0x080001b6                BusFault_Handler
+                0x080001bc                UsageFault_Handler
+                0x080001c2                SVC_Handler
+                0x080001c8                DebugMon_Handler
+                0x080001ce                PendSV_Handler
+                0x080001d4                SysTick_Handler
+                0x080001da                Reserved_Handler
+ .text          0x080001e0      0x3e8 ./Output/main.o
+                0x080001e0                memset
+                0x0800021c                main
+                0x0800057c                SPI_RxCpCallBack
+                0x080005b4                SPI2_IRQHandler
+ .text          0x080005c8      0xb74 ./Output/gpio.o
+                0x080005c8                GPIO_ClockControl
+                0x08000684                GPIO_Init
+                0x08000dd4                GPIO_DeInit
+                0x08000ecc                GPIO_ReadPin
+                0x08000efe                GPIO_ReadPort
+                0x08000f18                GPIO_WritePin
+                0x08000f66                GPIO_WritePort
+                0x08000f82                GPIO_PinToggle
+                0x08000faa                GPIO_IRQInterruptConfig
+                0x080010a0                GPIO_IRQPiorityConfig
+                0x08001100                GPIO_IRQ_ClearPending
+ .text          0x0800113c      0x780 ./Output/spi.o
+                0x0800113c                SPI_PeriClockControl
+                0x080011dc                SPI_Init
+                0x080014e0                SPI_DeInit
+                0x080014f2                SPI_Enable
+                0x08001514                SPI_Disable
+                0x08001536                SPI_SendData
+                0x080015e0                SPI_RecieveData
+                0x08001676                SPI_Recieve_OneByte
+                0x080016e4                SPI_IRQInterrupt_Config
+                0x080017b8                SPI_IRQPiority_Config
+                0x08001818                SPI_TxCpCallBack
+                0x0800183c                SPI_ErrorCallBack
+                0x0800184e                SPI_IRQ_Handler
+ .text          0x080018bc       0x1c ./Output/startup_ARMCM4.o
+                0x080018bc                Reset_Handler
+                0x080018ca                _start
+ *(.init)
+ *(.fini)
+ *crtbegin.o(.ctors)
+ *crtbegin?.o(.ctors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .ctors)
+ *(SORT_BY_NAME(.ctors.*))
+ *(.ctors)
+ *crtbegin.o(.dtors)
+ *crtbegin?.o(.dtors)
+ *(EXCLUDE_FILE(*crtend.o *crtend?.o) .dtors)
+ *(SORT_BY_NAME(.dtors.*))
+ *(.dtors)
+ *(.rodata*)
+ .rodata        0x080018d8        0xc ./Output/main.o
+ *(.eh_frame*)
+
+.glue_7         0x080018e4        0x0
+ .glue_7        0x080018e4        0x0 linker stubs
+
+.glue_7t        0x080018e4        0x0
+ .glue_7t       0x080018e4        0x0 linker stubs
+
+.vfp11_veneer   0x080018e4        0x0
+ .vfp11_veneer  0x080018e4        0x0 linker stubs
+
+.v4_bx          0x080018e4        0x0
+ .v4_bx         0x080018e4        0x0 linker stubs
+
+.iplt           0x080018e4        0x0
+ .iplt          0x080018e4        0x0 ./Output/main.o
+
+.rel.dyn        0x080018e4        0x0
+ .rel.iplt      0x080018e4        0x0 ./Output/main.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x080018e4                __exidx_start = .
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x080018e4                __exidx_end = .
+
+.copy.table     0x080018e4        0xc
+                0x080018e4                . = ALIGN (0x4)
+                0x080018e4                __copy_table_start__ = .
+                0x080018e4        0x4 LONG 0x80018f0 __etext
+                0x080018e8        0x4 LONG 0x20000000 __data_start__
+                0x080018ec        0x4 LONG 0x0 ((__data_end__ - __data_start__) / 0x4)
+                0x080018f0                __copy_table_end__ = .
+
+.zero.table     0x080018f0        0x0
+                0x080018f0                . = ALIGN (0x4)
+                0x080018f0                __zero_table_start__ = .
+                0x080018f0                __zero_table_end__ = .
+                0x080018f0                __etext = ALIGN (0x4)
+
+.data           0x20000000        0x0 load address 0x080018f0
+                0x20000000                __data_start__ = .
+ *(vtable)
+ *(.data)
+ .data          0x20000000        0x0 ./Output/it.o
+ .data          0x20000000        0x0 ./Output/main.o
+ .data          0x20000000        0x0 ./Output/gpio.o
+ .data          0x20000000        0x0 ./Output/spi.o
+ .data          0x20000000        0x0 ./Output/startup_ARMCM4.o
+ *(.data.*)
+                0x20000000                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__preinit_array_start = .)
+ *(.preinit_array)
+                [!provide]                PROVIDE (__preinit_array_end = .)
+                0x20000000                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__init_array_start = .)
+ *(SORT_BY_NAME(.init_array.*))
+ *(.init_array)
+                [!provide]                PROVIDE (__init_array_end = .)
+                0x20000000                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__fini_array_start = .)
+ *(SORT_BY_NAME(.fini_array.*))
+ *(.fini_array)
+                [!provide]                PROVIDE (__fini_array_end = .)
+ *(.jcr*)
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                __data_end__ = .
+
+.igot.plt       0x20000000        0x0 load address 0x080018f0
+ .igot.plt      0x20000000        0x0 ./Output/main.o
+
+.bss            0x20000000       0xa8
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                __bss_start__ = .
+ *(.bss)
+ .bss           0x20000000        0x0 ./Output/it.o
+ .bss           0x20000000       0xa5 ./Output/main.o
+                0x20000000                led
+                0x2000000c                button
+                0x20000018                SCK1
+                0x20000024                MOSI1
+                0x20000030                MISO1
+                0x2000003c                NSS1
+                0x20000048                SCK2
+                0x20000054                MOSI2
+                0x20000060                MISO2
+                0x2000006c                NSS2
+                0x20000078                spi1
+                0x20000088                spi2
+                0x20000098                rxBuffer
+ .bss           0x200000a5        0x0 ./Output/gpio.o
+ .bss           0x200000a5        0x0 ./Output/spi.o
+ .bss           0x200000a5        0x0 ./Output/startup_ARMCM4.o
+ *(.bss.*)
+ *(COMMON)
+                0x200000a8                . = ALIGN (0x4)
+ *fill*         0x200000a5        0x3 
+                0x200000a8                __bss_end__ = .
+
+.heap           0x200000a8     0x2000
+                0x200000a8                . = ALIGN (0x8)
+                0x200000a8                __end__ = .
+                [!provide]                PROVIDE (end = .)
+                0x200010a8                . = (. + __HEAP_SIZE)
+ *fill*         0x200000a8     0x1000 
+                0x200010a8                . = ALIGN (0x8)
+                0x200010a8                __HeapLimit = .
+ .heap          0x200010a8     0x1000 ./Output/startup_ARMCM4.o
+                0x200010a8                __HeapBase
+
+.stack          0x2001f000     0x2000
+                0x2001f000                . = ALIGN (0x8)
+                0x2001f000                __StackLimit = .
+                0x20020000                . = (. + __STACK_SIZE)
+ *fill*         0x2001f000     0x1000 
+                0x20020000                . = ALIGN (0x8)
+                0x20020000                __StackTop = .
+ .stack         0x20020000     0x1000 ./Output/startup_ARMCM4.o
+                [!provide]                PROVIDE (__stack = __StackTop)
+                0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region RAM overflowed with stack)
+LOAD ./Output/it.o
+LOAD ./Output/main.o
+LOAD ./Output/gpio.o
+LOAD ./Output/spi.o
+LOAD ./Output/startup_ARMCM4.o
+OUTPUT(./Output/Spi_driver.elf elf32-littlearm)
+LOAD linker stubs
+
+.debug_info     0x00000000     0x1774
+ .debug_info    0x00000000      0x132 ./Output/it.o
+ .debug_info    0x00000132      0x5b2 ./Output/main.o
+ .debug_info    0x000006e4      0x84b ./Output/gpio.o
+ .debug_info    0x00000f2f      0x845 ./Output/spi.o
+
+.debug_abbrev   0x00000000      0x58c
+ .debug_abbrev  0x00000000       0x44 ./Output/it.o
+ .debug_abbrev  0x00000044      0x1c8 ./Output/main.o
+ .debug_abbrev  0x0000020c      0x1b4 ./Output/gpio.o
+ .debug_abbrev  0x000003c0      0x1cc ./Output/spi.o
+
+.debug_aranges  0x00000000       0x80
+ .debug_aranges
+                0x00000000       0x20 ./Output/it.o
+ .debug_aranges
+                0x00000020       0x20 ./Output/main.o
+ .debug_aranges
+                0x00000040       0x20 ./Output/gpio.o
+ .debug_aranges
+                0x00000060       0x20 ./Output/spi.o
+
+.debug_line     0x00000000     0x11fa
+ .debug_line    0x00000000       0xa8 ./Output/it.o
+ .debug_line    0x000000a8      0x3d6 ./Output/main.o
+ .debug_line    0x0000047e      0x735 ./Output/gpio.o
+ .debug_line    0x00000bb3      0x647 ./Output/spi.o
+
+.debug_str      0x00000000      0x776
+ .debug_str     0x00000000      0x19a ./Output/it.o
+                                0x1ce (size before relaxing)
+ .debug_str     0x0000019a      0x24e ./Output/main.o
+                                0x388 (size before relaxing)
+ .debug_str     0x000003e8      0x279 ./Output/gpio.o
+                                0x477 (size before relaxing)
+ .debug_str     0x00000661      0x115 ./Output/spi.o
+                                0x4af (size before relaxing)
+
+.comment        0x00000000       0x49
+ .comment       0x00000000       0x49 ./Output/it.o
+                                 0x4a (size before relaxing)
+ .comment       0x00000049       0x4a ./Output/main.o
+ .comment       0x00000049       0x4a ./Output/gpio.o
+ .comment       0x00000049       0x4a ./Output/spi.o
+
+.ARM.attributes
+                0x00000000       0x2c
+ .ARM.attributes
+                0x00000000       0x2e ./Output/it.o
+ .ARM.attributes
+                0x0000002e       0x2e ./Output/main.o
+ .ARM.attributes
+                0x0000005c       0x2e ./Output/gpio.o
+ .ARM.attributes
+                0x0000008a       0x2e ./Output/spi.o
+ .ARM.attributes
+                0x000000b8       0x1c ./Output/startup_ARMCM4.o
+
+.debug_frame    0x00000000      0x5f4
+ .debug_frame   0x00000000      0x120 ./Output/it.o
+ .debug_frame   0x00000120       0xd0 ./Output/main.o
+ .debug_frame   0x000001f0      0x1c8 ./Output/gpio.o
+ .debug_frame   0x000003b8      0x23c ./Output/spi.o

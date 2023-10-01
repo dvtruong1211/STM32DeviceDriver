@@ -119,7 +119,16 @@ typedef struct{
 	GPIO_PinConfig_t GPIO_PinConfig;
 }GPIO_Handle_t;
 
+/* 
+	gpio_pin.Gpiox = GPIOD;
+	gpio_pin.GPIO_PinConfig.pinNumber = GPIO_PIN_0;
+	gpio_pin.GPIO_PinConfig.pinMode = OUTPUT_MODE;
+	gpio_pin.GPIO_PinConfig.pinSpeed = PUSH_PULL;
+	gpio_pin.GPIO_PinConfig.pinPuPdControl = NO_PULL;
+	gpio_pin.GPIO_PinConfig.pinOpType = PUSH_PULL;
+	gpio_pin.GPIO_PinConfig.pinAltFunMode = AF0;
 
+ */
 
 void GPIO_ClockControl(GPIO_TypeDef* gpiox, uint8_t value);
 

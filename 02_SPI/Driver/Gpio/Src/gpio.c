@@ -35,13 +35,13 @@ void GPIO_Init(GPIO_Handle_t *gpioHander){
 	/* Config the mode of the gpio */
 	if(gpioHander->GPIO_PinConfig.pinMode <= ANALOG_MODE)
 	{
-		/* Normal mode */
+		/* -----------------------------Normal mode---------------------------------------------------- */
 		gpioHander->Gpiox->MODER &= ~(0x03 << (2*gpioHander->GPIO_PinConfig.pinNumber) );
 		gpioHander->Gpiox->MODER |= (gpioHander->GPIO_PinConfig.pinMode << (2*gpioHander->GPIO_PinConfig.pinNumber));
 	}
 	else
 	{
-		/* Interrupt mode */
+		/* ---------------------------------Interrupt mode ----------------------------------------------------*/
 		
 		/* Set pin as a input pin */
 		gpioHander->Gpiox->MODER &= ~(0x03 << (2*gpioHander->GPIO_PinConfig.pinNumber) );
@@ -177,10 +177,10 @@ void GPIO_Init(GPIO_Handle_t *gpioHander){
 			{
 				SYSCFG->EXTICR[0] |= ( 0x07 << (4 * (gpioHander->GPIO_PinConfig.pinNumber )));
 			}
-		}
+	
+			}
 		/* Enable mask EXTI corresponding */
 		EXTI->IMR |= (1U << gpioHander->GPIO_PinConfig.pinNumber);
-		
 	}
 	
 	/* Config the speed of GPIO */
@@ -188,8 +188,15 @@ void GPIO_Init(GPIO_Handle_t *gpioHander){
 	gpioHander->Gpiox->OSPEEDR |= (gpioHander->GPIO_PinConfig.pinSpeed << (2*gpioHander->GPIO_PinConfig.pinNumber));
 	
 	/* Config the pull up pull down mode*/
-	gpioHander->Gpiox->PUPDR &= ~(0x03 << (2*gpioHander->GPIO_PinConfig.pinNumber) );
-	gpioHander->Gpiox->PUPDR |= (gpioHander->GPIO_PinConfig.pinPuPdControl << (2*gpioHander->GPIO_PinConfig.pinNumber));
+	if(gpioHander->GPIO_PinConfig.pinPuPdControl == RESERVED)
+	{
+		gpioHander->Gpiox->PUPDR &= ~(0x03 << (2*gpioHander->GPIO_PinConfig.pinNumber) );
+	}
+	else
+	{
+		gpioHander->Gpiox->PUPDR &= ~(0x03 << (2*gpioHander->GPIO_PinConfig.pinNumber) );
+		gpioHander->Gpiox->PUPDR |= (gpioHander->GPIO_PinConfig.pinPuPdControl << (2*gpioHander->GPIO_PinConfig.pinNumber));
+	}
 	
 	/* Config the the pin as output push-pull or open-drain */
 	gpioHander->Gpiox->OTYPER &= ~(0x01 << (gpioHander->GPIO_PinConfig.pinNumber) );
@@ -200,13 +207,13 @@ void GPIO_Init(GPIO_Handle_t *gpioHander){
 	{
 		if(gpioHander->GPIO_PinConfig.pinNumber <= 7)
 		{
-			gpioHander->Gpiox->AFR[0] &= (0x0f << (4*gpioHander->GPIO_PinConfig.pinNumber));
-			gpioHander->Gpiox->AFR[0] &= (gpioHander->GPIO_PinConfig.pinAltFunMode << (4*gpioHander->GPIO_PinConfig.pinNumber));
+			gpioHander->Gpiox->AFR[0] &= ~(0x0f << (4*gpioHander->GPIO_PinConfig.pinNumber));
+			gpioHander->Gpiox->AFR[0] |= (gpioHander->GPIO_PinConfig.pinAltFunMode << (4*gpioHander->GPIO_PinConfig.pinNumber));
 		}
 		else
 		{
-			gpioHander->Gpiox->AFR[1] &= (0x0f << (4*(gpioHander->GPIO_PinConfig.pinNumber % 8)));
-			gpioHander->Gpiox->AFR[1] &= (gpioHander->GPIO_PinConfig.pinAltFunMode << (4*gpioHander->GPIO_PinConfig.pinNumber));
+			gpioHander->Gpiox->AFR[1] &= ~(0x0f << (4*(gpioHander->GPIO_PinConfig.pinNumber % 8)));
+			gpioHander->Gpiox->AFR[1] |= (gpioHander->GPIO_PinConfig.pinAltFunMode << (4*(gpioHander->GPIO_PinConfig.pinNumber % 8)));
 		} 
 	}
 		
@@ -267,11 +274,11 @@ void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t state){
 		}
 		else if(IRQNumber >= 32  && IRQNumber < 64)
 		{
-			NVIC->ISER[1] |= (1U << (IRQNumber / 32));
+			NVIC->ISER[1] |= (1U << (IRQNumber % 32));
 		}
 		else if(IRQNumber >= 64  && IRQNumber < 96)
 		{
-			NVIC->ISER[2] |= (1U << (IRQNumber / 64));
+			NVIC->ISER[2] |= (1U << (IRQNumber % 64));
 		}
 	}
 	else

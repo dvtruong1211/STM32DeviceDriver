@@ -1,0 +1,6 @@
+{
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "memory_map_stm32f411xe.h": "c"
+    }
+}
