@@ -15,7 +15,7 @@ Linker script and memory map
                 0x00001000                __STACK_SIZE = 0x1000
                 0x00001000                __HEAP_SIZE = 0x1000
 
-.text           0x08000000      0xecc
+.text           0x08000000     0x185e
  *(.vectors)
  .vectors       0x08000000      0x198 ./Output/startup_ARMCM4.o
                 0x08000000                __Vectors
@@ -32,25 +32,42 @@ Linker script and memory map
                 0x080001ce                PendSV_Handler
                 0x080001d4                SysTick_Handler
                 0x080001da                Reserved_Handler
- .text          0x080001e0      0x18c ./Output/main.o
+ .text          0x080001e0       0xd8 ./Output/main.o
                 0x080001e0                main
-                0x08000340                EXTI0_IRQHandler
- .text          0x0800036c      0xb44 ./Output/gpio.o
-                0x0800036c                GPIO_ClockControl
-                0x08000428                GPIO_Init
-                0x08000b48                GPIO_DeInit
-                0x08000c40                GPIO_ReadPin
-                0x08000c72                GPIO_ReadPort
-                0x08000c8c                GPIO_WritePin
-                0x08000cda                GPIO_WritePort
-                0x08000cf6                GPIO_PinToggle
-                0x08000d1e                GPIO_IRQInterruptConfig
-                0x08000e14                GPIO_IRQPiorityConfig
-                0x08000e74                GPIO_IRQ_ClearPanding
- .text          0x08000eb0        0x0 ./Output/uart.o
- .text          0x08000eb0       0x1c ./Output/startup_ARMCM4.o
-                0x08000eb0                Reset_Handler
-                0x08000ebe                _start
+ .text          0x080002b8      0xb74 ./Output/gpio.o
+                0x080002b8                GPIO_ClockControl
+                0x08000374                GPIO_Init
+                0x08000ac4                GPIO_DeInit
+                0x08000bbc                GPIO_ReadPin
+                0x08000bee                GPIO_ReadPort
+                0x08000c08                GPIO_WritePin
+                0x08000c56                GPIO_WritePort
+                0x08000c72                GPIO_PinToggle
+                0x08000c9a                GPIO_IRQInterruptConfig
+                0x08000d90                GPIO_IRQPiorityConfig
+                0x08000df0                GPIO_IRQ_ClearPending
+ .text          0x08000e2c      0x240 ./Output/rcc.o
+                0x08000e2c                RCC_GetPCLK1
+                0x08000f4c                RCC_GetPCLK2
+ .text          0x0800106c      0x7cc ./Output/uart.o
+                0x0800106c                USART_PeriClockControl
+                0x0800111c                USART_Init
+                0x08001260                USART_SetBaudRate
+                0x080012ec                USART_DeInit
+                0x08001374                USART_PeriControl
+                0x080013aa                USART_GetFlagStatus
+                0x080013cc                USART_SendData
+                0x0800142e                USART_ReceiveData
+                0x0800147e                USART_ClearFlag
+                0x080014a8                USART_IRQConfig
+                0x0800159c                USART_IRQPiorityConfig
+                0x080015fc                USART_SendDataIT
+                0x08001656                USART_ReceiveDataIT
+                0x080016a8                USART_IRQHandler
+                0x08001822                USART_ApplicationEventCallback
+ .text          0x08001838       0x1c ./Output/startup_ARMCM4.o
+                0x08001838                Reset_Handler
+                0x08001846                _start
  *(.init)
  *(.fini)
  *crtbegin.o(.ctors)
@@ -64,55 +81,58 @@ Linker script and memory map
  *(SORT_BY_NAME(.dtors.*))
  *(.dtors)
  *(.rodata*)
+ .rodata        0x08001854        0xa ./Output/main.o
  *(.eh_frame*)
 
-.glue_7         0x08000ecc        0x0
- .glue_7        0x08000ecc        0x0 linker stubs
+.glue_7         0x08001860        0x0
+ .glue_7        0x08001860        0x0 linker stubs
 
-.glue_7t        0x08000ecc        0x0
- .glue_7t       0x08000ecc        0x0 linker stubs
+.glue_7t        0x08001860        0x0
+ .glue_7t       0x08001860        0x0 linker stubs
 
-.vfp11_veneer   0x08000ecc        0x0
- .vfp11_veneer  0x08000ecc        0x0 linker stubs
+.vfp11_veneer   0x08001860        0x0
+ .vfp11_veneer  0x08001860        0x0 linker stubs
 
-.v4_bx          0x08000ecc        0x0
- .v4_bx         0x08000ecc        0x0 linker stubs
+.v4_bx          0x08001860        0x0
+ .v4_bx         0x08001860        0x0 linker stubs
 
-.iplt           0x08000ecc        0x0
- .iplt          0x08000ecc        0x0 ./Output/main.o
+.iplt           0x08001860        0x0
+ .iplt          0x08001860        0x0 ./Output/main.o
 
-.rel.dyn        0x08000ecc        0x0
- .rel.iplt      0x08000ecc        0x0 ./Output/main.o
+.rel.dyn        0x08001860        0x0
+ .rel.iplt      0x08001860        0x0 ./Output/main.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x08000ecc                __exidx_start = .
+                0x0800185e                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x08000ecc                __exidx_end = .
+                0x0800185e                __exidx_end = .
 
-.copy.table     0x08000ecc        0xc
-                0x08000ecc                . = ALIGN (0x4)
-                0x08000ecc                __copy_table_start__ = .
-                0x08000ecc        0x4 LONG 0x8000ed8 __etext
-                0x08000ed0        0x4 LONG 0x20000000 __data_start__
-                0x08000ed4        0x4 LONG 0x0 ((__data_end__ - __data_start__) / 0x4)
-                0x08000ed8                __copy_table_end__ = .
+.copy.table     0x0800185e        0xe
+                0x08001860                . = ALIGN (0x4)
+ *fill*         0x0800185e        0x2 
+                0x08001860                __copy_table_start__ = .
+                0x08001860        0x4 LONG 0x800186c __etext
+                0x08001864        0x4 LONG 0x20000000 __data_start__
+                0x08001868        0x4 LONG 0x0 ((__data_end__ - __data_start__) / 0x4)
+                0x0800186c                __copy_table_end__ = .
 
-.zero.table     0x08000ed8        0x0
-                0x08000ed8                . = ALIGN (0x4)
-                0x08000ed8                __zero_table_start__ = .
-                0x08000ed8                __zero_table_end__ = .
-                0x08000ed8                __etext = ALIGN (0x4)
+.zero.table     0x0800186c        0x0
+                0x0800186c                . = ALIGN (0x4)
+                0x0800186c                __zero_table_start__ = .
+                0x0800186c                __zero_table_end__ = .
+                0x0800186c                __etext = ALIGN (0x4)
 
-.data           0x20000000        0x0 load address 0x08000ed8
+.data           0x20000000        0x0 load address 0x0800186c
                 0x20000000                __data_start__ = .
  *(vtable)
  *(.data)
  .data          0x20000000        0x0 ./Output/it.o
  .data          0x20000000        0x0 ./Output/main.o
  .data          0x20000000        0x0 ./Output/gpio.o
+ .data          0x20000000        0x0 ./Output/rcc.o
  .data          0x20000000        0x0 ./Output/uart.o
  .data          0x20000000        0x0 ./Output/startup_ARMCM4.o
  *(.data.*)
@@ -134,41 +154,38 @@ Linker script and memory map
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                __data_end__ = .
 
-.igot.plt       0x20000000        0x0 load address 0x08000ed8
+.igot.plt       0x20000000        0x0 load address 0x0800186c
  .igot.plt      0x20000000        0x0 ./Output/main.o
 
-.bss            0x20000000       0x58
+.bss            0x20000000       0x3c
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                __bss_start__ = .
  *(.bss)
  .bss           0x20000000        0x0 ./Output/it.o
- .bss           0x20000000       0x58 ./Output/main.o
-                0x20000000                a
-                0x20000004                button1
-                0x20000010                led
-                0x2000001c                led1
-                0x20000028                led2
-                0x20000034                led3
-                0x20000040                led5
-                0x2000004c                led4
- .bss           0x20000058        0x0 ./Output/gpio.o
- .bss           0x20000058        0x0 ./Output/uart.o
- .bss           0x20000058        0x0 ./Output/startup_ARMCM4.o
+ .bss           0x20000000       0x3a ./Output/main.o
+                0x20000000                usart_gpio
+                0x2000000c                uart1
+                0x20000030                RxBuffer
+ .bss           0x2000003a        0x0 ./Output/gpio.o
+ .bss           0x2000003a        0x0 ./Output/rcc.o
+ .bss           0x2000003a        0x0 ./Output/uart.o
+ .bss           0x2000003a        0x0 ./Output/startup_ARMCM4.o
  *(.bss.*)
  *(COMMON)
-                0x20000058                . = ALIGN (0x4)
-                0x20000058                __bss_end__ = .
+                0x2000003c                . = ALIGN (0x4)
+ *fill*         0x2000003a        0x2 
+                0x2000003c                __bss_end__ = .
 
-.heap           0x20000058     0x2000
-                0x20000058                . = ALIGN (0x8)
-                0x20000058                __end__ = .
+.heap           0x20000040     0x2000
+                0x20000040                . = ALIGN (0x8)
+                0x20000040                __end__ = .
                 [!provide]                PROVIDE (end = .)
-                0x20001058                . = (. + __HEAP_SIZE)
- *fill*         0x20000058     0x1000 
-                0x20001058                . = ALIGN (0x8)
-                0x20001058                __HeapLimit = .
- .heap          0x20001058     0x1000 ./Output/startup_ARMCM4.o
-                0x20001058                __HeapBase
+                0x20001040                . = (. + __HEAP_SIZE)
+ *fill*         0x20000040     0x1000 
+                0x20001040                . = ALIGN (0x8)
+                0x20001040                __HeapLimit = .
+ .heap          0x20001040     0x1000 ./Output/startup_ARMCM4.o
+                0x20001040                __HeapBase
 
 .stack          0x2001f000     0x2000
                 0x2001f000                . = ALIGN (0x8)
@@ -183,24 +200,27 @@ Linker script and memory map
 LOAD ./Output/it.o
 LOAD ./Output/main.o
 LOAD ./Output/gpio.o
+LOAD ./Output/rcc.o
 LOAD ./Output/uart.o
 LOAD ./Output/startup_ARMCM4.o
 OUTPUT(./Output/uart_driver.elf elf32-littlearm)
 LOAD linker stubs
 
-.debug_info     0x00000000      0xc9c
+.debug_info     0x00000000     0x1abf
  .debug_info    0x00000000      0x132 ./Output/it.o
- .debug_info    0x00000132      0x2be ./Output/main.o
- .debug_info    0x000003f0      0x848 ./Output/gpio.o
- .debug_info    0x00000c38       0x64 ./Output/uart.o
+ .debug_info    0x00000132      0x3e3 ./Output/main.o
+ .debug_info    0x00000515      0x84b ./Output/gpio.o
+ .debug_info    0x00000d60      0x417 ./Output/rcc.o
+ .debug_info    0x00001177      0x948 ./Output/uart.o
 
-.debug_abbrev   0x00000000      0x35e
+.debug_abbrev   0x00000000      0x650
  .debug_abbrev  0x00000000       0x44 ./Output/it.o
- .debug_abbrev  0x00000044      0x140 ./Output/main.o
- .debug_abbrev  0x00000184      0x1b4 ./Output/gpio.o
- .debug_abbrev  0x00000338       0x26 ./Output/uart.o
+ .debug_abbrev  0x00000044      0x113 ./Output/main.o
+ .debug_abbrev  0x00000157      0x1b4 ./Output/gpio.o
+ .debug_abbrev  0x0000030b       0xf9 ./Output/rcc.o
+ .debug_abbrev  0x00000404      0x24c ./Output/uart.o
 
-.debug_aranges  0x00000000       0x78
+.debug_aranges  0x00000000       0xa0
  .debug_aranges
                 0x00000000       0x20 ./Output/it.o
  .debug_aranges
@@ -208,29 +228,35 @@ LOAD linker stubs
  .debug_aranges
                 0x00000040       0x20 ./Output/gpio.o
  .debug_aranges
-                0x00000060       0x18 ./Output/uart.o
+                0x00000060       0x20 ./Output/rcc.o
+ .debug_aranges
+                0x00000080       0x20 ./Output/uart.o
 
-.debug_line     0x00000000      0x99a
+.debug_line     0x00000000     0x1155
  .debug_line    0x00000000       0xa8 ./Output/it.o
- .debug_line    0x000000a8      0x1d1 ./Output/main.o
- .debug_line    0x00000279      0x704 ./Output/gpio.o
- .debug_line    0x0000097d       0x1d ./Output/uart.o
+ .debug_line    0x000000a8      0x1a2 ./Output/main.o
+ .debug_line    0x0000024a      0x72b ./Output/gpio.o
+ .debug_line    0x00000975      0x27f ./Output/rcc.o
+ .debug_line    0x00000bf4      0x561 ./Output/uart.o
 
-.debug_str      0x00000000      0x53c
+.debug_str      0x00000000      0x8ef
  .debug_str     0x00000000      0x19b ./Output/it.o
                                 0x1cf (size before relaxing)
- .debug_str     0x0000019b      0x113 ./Output/main.o
-                                0x237 (size before relaxing)
- .debug_str     0x000002ae      0x27a ./Output/gpio.o
+ .debug_str     0x0000019b      0x1f0 ./Output/main.o
+                                0x326 (size before relaxing)
+ .debug_str     0x0000038b      0x274 ./Output/gpio.o
                                 0x473 (size before relaxing)
- .debug_str     0x00000528       0x14 ./Output/uart.o
-                                0x127 (size before relaxing)
+ .debug_str     0x000005ff      0x179 ./Output/rcc.o
+                                0x3ae (size before relaxing)
+ .debug_str     0x00000778      0x177 ./Output/uart.o
+                                0x519 (size before relaxing)
 
 .comment        0x00000000       0x49
  .comment       0x00000000       0x49 ./Output/it.o
                                  0x4a (size before relaxing)
  .comment       0x00000049       0x4a ./Output/main.o
  .comment       0x00000049       0x4a ./Output/gpio.o
+ .comment       0x00000049       0x4a ./Output/rcc.o
  .comment       0x00000049       0x4a ./Output/uart.o
 
 .ARM.attributes
@@ -242,11 +268,15 @@ LOAD linker stubs
  .ARM.attributes
                 0x0000005c       0x2e ./Output/gpio.o
  .ARM.attributes
-                0x0000008a       0x2e ./Output/uart.o
+                0x0000008a       0x2e ./Output/rcc.o
  .ARM.attributes
-                0x000000b8       0x1c ./Output/startup_ARMCM4.o
+                0x000000b8       0x2e ./Output/uart.o
+ .ARM.attributes
+                0x000000e6       0x1c ./Output/startup_ARMCM4.o
 
-.debug_frame    0x00000000      0x350
+.debug_frame    0x00000000      0x604
  .debug_frame   0x00000000      0x120 ./Output/it.o
  .debug_frame   0x00000120       0x68 ./Output/main.o
  .debug_frame   0x00000188      0x1c8 ./Output/gpio.o
+ .debug_frame   0x00000350       0x60 ./Output/rcc.o
+ .debug_frame   0x000003b0      0x254 ./Output/uart.o
