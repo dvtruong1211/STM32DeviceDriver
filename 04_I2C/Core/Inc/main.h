@@ -1,13 +1,30 @@
- #ifndef __MAIN_H
- #define __MAIN_H
- 
- #include "memory_map_stm32f411xe.h"
- 
- 
- 
-void delay(void);
- 
- 
- 
- 
- #endif
+/**
+ ******************************************************************************
+ * @file    main.h.h
+ * @author  truongdv
+ * @version 1.0
+ * @date    
+ * @brief   
+ * @history
+ ******************************************************************************/
+#ifndef __MAIN_H
+#define __MAIN_H
+
+
+
+/* Includes ------------------------------------------------------------------*/
+#include "memory_map_stm32f411xe.h"
+
+
+/* Exported types ------------------------------------------------------------*/
+/* Exported constants --------------------------------------------------------*/
+/* Exported macro ------------------------------------------------------------*/
+/* Exported functions ------------------------------------------------------- */
+uint8_t my_strcmp(const uint8_t *s1, const uint8_t *s2);
+
+
+
+
+
+
+#endif   /* __MAIN_H */

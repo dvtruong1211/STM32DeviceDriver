@@ -1,13 +1,13 @@
 
-PROJ_NAME 		:= gpio_driver_test
+PROJ_NAME 		:= uart_driver
 PROJ_DIR 		:= .
 PATH_OUTPUT		:= $(PROJ_DIR)/Output
 
 INC_DIR 		:= $(PROJ_DIR)/Core/Inc
-INC_DIR 		+= $(PROJ_DIR)/Driver/Gpio/Inc
+INC_DIR 		+= $(PROJ_DIR)/Driver/Inc
 
 SRC_DIR 		:= $(PROJ_DIR)/Core/Src
-SRC_DIR 		+= $(PROJ_DIR)/Driver/Gpio/Src
+SRC_DIR 		+= $(PROJ_DIR)/Driver/Src
 
 INC_FILES		:= $(foreach inc_dir, $(INC_DIR), $(wildcard $(inc_dir)/*))
 SRC_FILES		:= $(foreach src_dir, $(SRC_DIR), $(wildcard $(src_dir)/*.c))
@@ -20,10 +20,11 @@ PREFIX_COMPILER	:= arm-none-eabi
 CC				:= $(COMPILER_DIR)/bin/$(PREFIX_COMPILER)-gcc
 ASM				:= $(COMPILER_DIR)/bin/$(PREFIX_COMPILER)-as
 LD				:= $(COMPILER_DIR)/bin/$(PREFIX_COMPILER)-ld
+SZ 				:= $(COMPILER_DIR)/bin/$(PREFIX_COMPILER)-size
 
 INC_DIRS_OPT	:=  $(foreach inc_dir, $(INC_DIR), -I$(inc_dir))
 
-CC_OPT			:= -mcpu=cortex-m4 -c -O0 -g -mthumb $(INC_DIRS_OPT)
+CC_OPT			:= -mcpu=cortex-m4 -c -O0 -g -std=gnu11 -mthumb $(INC_DIRS_OPT) 
 ASM_OPT			:= -mcpu=cortex-m4 -c -mthumb
 LD_OPT			:= -T $(LINKER_FILE) -Map $(PATH_OUTPUT)/$(PROJ_NAME).map
 
@@ -38,6 +39,8 @@ vpath %.h $(INC_DIR)
 build: $(OBJ_FILES) $(LINKER_FILE) $(PATH_OUTPUT)/startup_ARMCM4.o
 	@echo "....Linking...."
 	$(LD) $(LD_OPT) $(PATH_OBJS) $(PATH_OUTPUT)/startup_ARMCM4.o -o $(PATH_OUTPUT)/$(PROJ_NAME).elf
+	@$(SZ) $(PATH_OUTPUT)/$(PROJ_NAME).elf
+	@echo                      BUILD SUCCESSFULLY                           
 
 %.o : %.c $(INC_FILES)
 	@echo "build $< to $@"
@@ -46,6 +49,5 @@ build: $(OBJ_FILES) $(LINKER_FILE) $(PATH_OUTPUT)/startup_ARMCM4.o
 $(PATH_OUTPUT)/startup_ARMCM4.o : $(PROJ_DIR)/Core/Src/startup_ARMCM4.S
 	$(ASM) $(ASM_OPT) $(PROJ_DIR)/Core/Src/startup_ARMCM4.S -o $(PATH_OUTPUT)/startup_ARMCM4.o
 	
-	
 clean: 
-	rm -rf $(PATH_OUTPUT)/*
+	del /q /f /s Output\*

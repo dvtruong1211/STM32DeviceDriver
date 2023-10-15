@@ -1,7 +1,7 @@
 /**
  ******************************************************************************
  * @file    memory_map_stm32f411xE.h
- * @author  truongdv
+ * @author  ST electronic and modify by truongdv
  * @version 1.0
  * @date    
  * @brief   
@@ -13,6 +13,15 @@
 #define __MEMORY_MAP_STM32F411XE_H
 
 #include "stdint.h"
+#include "stddef.h"
+
+
+
+#define ENABLE          1
+#define DISABLE         0
+#define SET             1
+#define RESET           0
+
 
 /*
   Configuration of the Cortex-M4 Processor and Core Peripherals 
@@ -93,6 +102,7 @@ typedef struct
 } SysTick_Type;	 
 	 
 #define SysTick             ((SysTick_Type   *)     SysTick_BASE  )   /*!< SysTick configuration struct */
+
 
 
 /**
@@ -873,12 +883,12 @@ typedef struct
 #define GPIOE_CLOCK_ENABLE()			( RCC->AHB1ENR |= ( 1U << 4 ) )
 #define GPIOH_CLOCK_ENABLE()			( RCC->AHB1ENR |= ( 1U << 7 ) )
 
-#define GPIOA_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 0 ) );( RCC->AHB1RSTR &= ~( 1U << 0 ) );}while(0)
-#define GPIOB_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 1 ) );( RCC->AHB1RSTR &= ~( 1U << 1 ) );}while(0)
-#define GPIOC_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 2 ) );( RCC->AHB1RSTR &= ~( 1U << 2 ) );}while(0)
-#define GPIOD_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 3 ) );( RCC->AHB1RSTR &= ~( 1U << 3 ) );}while(0)
-#define GPIOE_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 4 ) );( RCC->AHB1RSTR &= ~( 1U << 4 ) );}while(0)
-#define GPIOH_CLOCK_DISABLE()			do{( RCC->AHB1RSTR |= ( 1U << 7 ) );( RCC->AHB1RSTR &= ~( 1U << 7 ) );}while(0)
+#define GPIOA_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 0 ) );( RCC->AHB1RSTR &= ~( 1U << 0 ) );}while(0)
+#define GPIOB_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 1 ) );( RCC->AHB1RSTR &= ~( 1U << 1 ) );}while(0)
+#define GPIOC_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 2 ) );( RCC->AHB1RSTR &= ~( 1U << 2 ) );}while(0)
+#define GPIOD_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 3 ) );( RCC->AHB1RSTR &= ~( 1U << 3 ) );}while(0)
+#define GPIOE_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 4 ) );( RCC->AHB1RSTR &= ~( 1U << 4 ) );}while(0)
+#define GPIOH_CLOCK_RESET()			do{( RCC->AHB1RSTR |= ( 1U << 7 ) );( RCC->AHB1RSTR &= ~( 1U << 7 ) );}while(0)
 
 
 /**
@@ -888,8 +898,39 @@ typedef struct
 #define SYSCFG_CLOCK_ENABLE()			( RCC->APB2ENR |= ( 1U << 14 ) )
 
 
+/**
+  * USART Clock control
+  */	
+
+#define USART1_CLOCK_ENABLE()       ( RCC->APB2ENR |= ( 1U <<  4 ) )
+#define USART2_CLOCK_ENABLE()       ( RCC->APB1ENR |= ( 1U << 17 ) )
+#define USART6_CLOCK_ENABLE()       ( RCC->APB2ENR |= ( 1U <<  5 ) )
+
+
+#define USART1_CLOCK_DISABLE()      ( RCC->APB2ENR &=~ ( 1U <<  4 ) )
+#define USART2_CLOCK_DISABLE()      ( RCC->APB1ENR &=~ ( 1U << 17 ) )
+#define USART6_CLOCK_DISABLE()      ( RCC->APB2ENR &=~ ( 1U <<  5 ) )
+
+
+#define USART1_CLOCK_RESET()        do{RCC->APB2RSTR |= ( 1U <<   4 ); RCC->APB2RSTR &=~ ( 1U <<   4 );}while(0)
+#define USART2_CLOCK_RESET()        do{RCC->APB1RSTR |= ( 1U <<  17 ); RCC->APB1RSTR &=~ ( 1U <<  17 );}while(0)
+#define USART6_CLOCK_RESET()        do{RCC->APB2RSTR |= ( 1U <<   5 ); RCC->APB2RSTR &=~ ( 1U <<   5 );}while(0)
+
+/**
+  * I2C Clock control
+  */	
+#define I2C1_CLOCK_ENABLE()       ( RCC->APB1ENR |= ( 1U << 21 ) )
+#define I2C2_CLOCK_ENABLE()       ( RCC->APB1ENR |= ( 1U << 22 ) )
+#define I2C3_CLOCK_ENABLE()       ( RCC->APB1ENR |= ( 1U << 23 ) )
+
+#define I2C1_CLOCK_DISABLE()      ( RCC->APB1ENR &=~ ( 1U << 21 ) )
+#define I2C2_CLOCK_DISABLE()      ( RCC->APB1ENR &=~ ( 1U << 22 ) )
+#define I2C3_CLOCK_DISABLE()      ( RCC->APB1ENR &=~ ( 1U << 23 ) )
+
+
+
+
+
+
 #endif /* __MEMORY_MAP_STM32F411xE_H */
 
-
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

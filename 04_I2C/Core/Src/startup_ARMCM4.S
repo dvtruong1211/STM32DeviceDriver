@@ -53,7 +53,7 @@ __Vectors:
                 .long    Reserved_Handler                   /*  3  */
                 .long    Reserved_Handler                   /*  4  */
                 .long    Reserved_Handler                   /*  5  */
-                .long    EXTI0_IRQHandler                   /*  6  */
+                .long    Reserved_Handler                   /*  6  */
                 .long    Reserved_Handler                   /*  7  */
                 .long    Reserved_Handler                   /*  8  */
                 .long    Reserved_Handler                   /*  9  */
@@ -84,7 +84,7 @@ __Vectors:
                 .long    Reserved_Handler                   /* 34  */
                 .long    Reserved_Handler                   /* 35  */
                 .long    Reserved_Handler                   /* 36  */
-                .long    Reserved_Handler                   /* 37  */
+                .long    USART1_IRQHandler                   /* 37  */
                 .long    Reserved_Handler                   /* 38  */
                 .long    Reserved_Handler                   /* 39  */
                 .long    Reserved_Handler                   /* 40  */

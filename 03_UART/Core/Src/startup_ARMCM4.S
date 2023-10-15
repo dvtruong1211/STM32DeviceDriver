@@ -84,7 +84,7 @@ __Vectors:
                 .long    Reserved_Handler                   /* 34  */
                 .long    Reserved_Handler                   /* 35  */
                 .long    Reserved_Handler                   /* 36  */
-                .long    Reserved_Handler                   /* 37  */
+                .long    USART1_IRQHandler                   /* 37  */
                 .long    Reserved_Handler                   /* 38  */
                 .long    Reserved_Handler                   /* 39  */
                 .long    Reserved_Handler                   /* 40  */

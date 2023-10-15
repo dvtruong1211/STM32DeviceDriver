@@ -13,6 +13,7 @@
 #define __MEMORY_MAP_STM32F411XE_H
 
 #include "stdint.h"
+#include "stddef.h"
 
 
 

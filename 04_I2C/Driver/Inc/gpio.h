@@ -13,12 +13,6 @@
 
 #include "memory_map_stm32f411xe.h"
 
-#define ENABLE			1
-#define DISABLE 		0
-
-#define SET 			ENABLE
-#define RESET			DISABLE
-
 #define GPIO_PIN_SET	SET
 #define GPIO_PIN_RESET	RESET
 
@@ -30,7 +24,7 @@
 #define GPIO_PIN_2		2
 #define GPIO_PIN_3		3
 #define GPIO_PIN_4		4
-#define GPIO_PIN_5		5
+#define GPIO_PIN_5		
 #define GPIO_PIN_6		6
 #define GPIO_PIN_7		7
 #define GPIO_PIN_8		8
@@ -125,7 +119,16 @@ typedef struct{
 	GPIO_PinConfig_t GPIO_PinConfig;
 }GPIO_Handle_t;
 
+/* 
+	gpio_pin.Gpiox = GPIOD;
+	gpio_pin.GPIO_PinConfig.pinNumber = GPIO_PIN_0;
+	gpio_pin.GPIO_PinConfig.pinMode = OUTPUT_MODE;
+	gpio_pin.GPIO_PinConfig.pinSpeed = PUSH_PULL;
+	gpio_pin.GPIO_PinConfig.pinPuPdControl = NO_PULL;
+	gpio_pin.GPIO_PinConfig.pinOpType = PUSH_PULL;
+	gpio_pin.GPIO_PinConfig.pinAltFunMode = AF0;
 
+ */
 
 void GPIO_ClockControl(GPIO_TypeDef* gpiox, uint8_t value);
 

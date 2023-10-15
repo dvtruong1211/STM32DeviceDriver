@@ -235,10 +235,8 @@ void GPIO_DeInit(GPIO_TypeDef *gpiox){
 }
 
 uint8_t GPIO_ReadPin(GPIO_TypeDef* gpiox, uint8_t pinNumber){
-	uint32_t state = (gpiox->IDR & (1U << pinNumber));
-	if(state)
-		return 1;
-	return 0;
+	uint32_t state = (gpiox->IDR >> pinNumber) & 0x01;
+	return state;
 }
 
 uint16_t GPIO_ReadPort(GPIO_TypeDef* gpiox){
